@@ -16,7 +16,7 @@ A Stash plugin that adds a multi-category rating system for scenes. Instead of a
 2. Place the extracted folder inside a category subfolder of your Stash plugins directory:
    - **Linux/Mac:** `~/.stash/plugins/Utilities/Advanced Scene Rating/`
    - **Windows:** `%USERPROFILE%\.stash\plugins\Utilities\Advanced Scene Rating\`
-   
+
    > The plugin must be **two levels deep** inside the plugins directory — `plugins/Category/Plugin/`. Placing it directly under `plugins/` will cause it not to appear in Stash.
 
 3. In Stash, go to **Settings → Plugins** and click **Reload Plugins**
@@ -31,21 +31,23 @@ A Stash plugin that adds a multi-category rating system for scenes. Instead of a
 4. Rate each category — the overall scene rating updates automatically when you close the modal
 5. Hover over a category name to see a description of what it rates
 
-The overall rating is the average of all rated categories, rounded to the nearest star and mapped to Stash's 0–100 scale.
+The overall rating is the average of all rated categories, mapped to Stash's 0–100 scale.
 
 ## Configuration
 
 Go to **Settings → Plugins → Advanced Scene Rating** to configure:
 
-| Setting | Default | Description |
-|---|---|---|
-| Categories | `Production Quality,Chemistry,Performance,Aesthetics,Creativity` | Comma-separated list of rating categories |
-| Minimum Required Tags | `5` | How many categories must be rated before a score is calculated |
-| Allow Destructive Actions | `false` | Must be enabled before the Remove Tags task will run |
+| Setting | Description |
+|---|---|
+| Disable: Production Quality | Remove Production Quality from rating |
+| Disable: Chemistry | Remove Chemistry from rating |
+| Disable: Performance | Remove Performance from rating |
+| Disable: Aesthetics | Remove Aesthetics from rating |
+| Disable: Creativity | Remove Creativity from rating |
+| Minimum Required Tags | How many categories must be rated before a score is calculated (default: `5`) |
+| Allow Destructive Actions | Must be enabled before the Remove Tags task will run (default: `false`) |
 
-> **Note:** Due to a bug in Stash, settings fields will appear blank even when defaults are set. You don't need to fill them in — the plugin uses the defaults shown above automatically if a field is left empty. Only enter a value if you want to override the default.
-
-After changing categories, re-run **Create Tags** to generate tags for any new categories.
+All categories are active by default — check a box to disable that category.
 
 ## Tasks
 

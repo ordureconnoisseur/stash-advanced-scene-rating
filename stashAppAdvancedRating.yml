@@ -1,6 +1,6 @@
 name: Advanced Scene Rating
 description: Rate scenes based on advanced criteria using tags.
-version: 1.0.4
+version: 2.0.0
 url: https://github.com/ordureconnoisseur/stash-advanced-scene-rating
 exec:
   - python
@@ -16,10 +16,26 @@ hooks:
     triggeredBy:
       - Scene.Update.Post
 settings:
-  categories:
-    displayName: Categories
-    description: Comma-separated list of rating categories (e.g. Production Quality,Chemistry,Performance,Aesthetics,Creativity).
-    type: STRING
+  disable_production_quality:
+    displayName: "Disable: Production Quality"
+    description: Remove Production Quality from rating categories.
+    type: BOOLEAN
+  disable_chemistry:
+    displayName: "Disable: Chemistry"
+    description: Remove Chemistry from rating categories.
+    type: BOOLEAN
+  disable_performance:
+    displayName: "Disable: Performance"
+    description: Remove Performance from rating categories.
+    type: BOOLEAN
+  disable_aesthetics:
+    displayName: "Disable: Aesthetics"
+    description: Remove Aesthetics from rating categories.
+    type: BOOLEAN
+  disable_creativity:
+    displayName: "Disable: Creativity"
+    description: Remove Creativity from rating categories.
+    type: BOOLEAN
   minimum_required_tags:
     displayName: Minimum Required Tags
     description: Minimum number of category tags needed before a rating is calculated.
