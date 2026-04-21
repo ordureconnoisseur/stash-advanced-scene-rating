@@ -37,9 +37,18 @@ TAG_RATING_PARENT = {
     "image": SVG_TAG_IMG
 }
 
+ALL_CATEGORIES = ["Production Quality", "Chemistry", "Performance", "Aesthetics", "Creativity"]
+
+DISABLE_KEYS = {
+    "Production Quality": "disable_production_quality",
+    "Chemistry":          "disable_chemistry",
+    "Performance":        "disable_performance",
+    "Aesthetics":         "disable_aesthetics",
+    "Creativity":         "disable_creativity",
+}
+
 # GLOBALS
 settings = {
-    "categories": "Production Quality, Chemistry, Performance, Aesthetics, Creativity",
     "minimum_required_tags": 5,
     "allow_destructive_actions": False
 }
@@ -107,14 +116,9 @@ def update_settings_from_config(config):
 
 def get_categories():
     log.debug("GET CATEGORIES ...")
-    try:
-        cats = settings.get("categories", "")
-        result = [c.strip() for c in cats.split(",")] if cats else []
-        log.debug(f"CATEGORIES: {result}")
-        return result
-    except Exception as e:
-        log.error(f"PLUGIN CONFIGURATION: Failed to process categories: {e}")
-        return []
+    result = [c for c in ALL_CATEGORIES if not settings.get(DISABLE_KEYS[c], False)]
+    log.debug(f"CATEGORIES: {result}")
+    return result
 
 def get_minimum_required_tags():
     log.debug("GET MINIMUM REQUIREMENT ...")
@@ -147,7 +151,7 @@ def handle_actions(json_input, stash, categories, minimum_required_tags):
     elif mode == "create_tags":
         createTags(categories)
     elif mode == "remove_tags":
-        removeTags(categories)
+        removeTags(ALL_CATEGORIES)
 
 def handle_hooks(json_input, stash):
     log.debug("HANDLING HOOKS ...")

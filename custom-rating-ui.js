@@ -62,19 +62,25 @@
         return res.json();
     }
 
+    const ALL_CATEGORIES = ["Production Quality", "Chemistry", "Performance", "Aesthetics", "Creativity"];
+    const DISABLE_KEYS = {
+        "Production Quality": "disable_production_quality",
+        "Chemistry":          "disable_chemistry",
+        "Performance":        "disable_performance",
+        "Aesthetics":         "disable_aesthetics",
+        "Creativity":         "disable_creativity",
+    };
+
     async function getPluginCategories() {
         const query = `query Configuration { configuration { plugins } }`;
         const res = await gqlClient(query);
         try {
-            const plugins = res.data.configuration.plugins;
-            const configStr = plugins.stashAppAdvancedRating?.categories;
-            if (configStr) {
-                return configStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
-            }
+            const config = res.data.configuration.plugins.stashAppAdvancedRating || {};
+            return ALL_CATEGORIES.filter(c => !config[DISABLE_KEYS[c]]);
         } catch(e) {
             log("Error loading config:", e);
         }
-        return ["Production Quality", "Chemistry", "Performance", "Aesthetics", "Creativity"];
+        return [...ALL_CATEGORIES];
     }
 
     async function getSceneTags(sceneId) {
