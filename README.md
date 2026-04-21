@@ -2,7 +2,9 @@
 
 A Stash plugin that adds a multi-category rating system for scenes. Instead of a single star rating, you rate scenes across configurable criteria — the plugin then calculates an overall score and sets the Stash rating automatically.
 
-<!-- screenshots -->
+![Rating Modal](screenshot-modal.png)
+![Scene Page](screenshot-scene-page.png)
+![Settings](screenshot-settings.png)
 
 ## Credits
 
