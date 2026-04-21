@@ -123,7 +123,8 @@ def get_categories():
 def get_minimum_required_tags():
     log.debug("GET MINIMUM REQUIREMENT ...")
     try:
-        value = int(settings.get("minimum_required_tags", 5))
+        mrt_raw = settings.get("minimum_required_tags")
+        value = int(mrt_raw) if mrt_raw is not None else 5
         log.debug(f"MINIMUM REQUIRED TAGS: {value}")
         return value
     except Exception as e:
