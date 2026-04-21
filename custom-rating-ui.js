@@ -1,3 +1,7 @@
+// Based on stashapp-plugin-advanced-scene-ratings by shackofnoreturn
+// Original: https://github.com/shackofnoreturn/stashapp-plugin-advanced-scene-ratings
+// License: AGPL v3 - https://www.gnu.org/licenses/agpl-3.0.html
+
 (function () {
     const CATEGORY_PATTERN = /^(.+?)\s*:\s*([0-5])$/;
 
@@ -5,53 +9,55 @@
         console.log('[Advanced Ratings v1.1]', ...args);
     }
 
-    let debounceTimer;
-    let observer = new MutationObserver((mutations) => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            const urlMatch = window.location.pathname.match(/\/scenes\/(\d+)/);
-            if (urlMatch && !window.location.pathname.includes('edit')) {
-                const sceneId = urlMatch[1];
-                
-                if (document.querySelector('#adv-rating-trigger')) return;
+    let pollTimer = null;
 
-                // Attempt to find the rating element or a good fallback
-                let targetElement = null;
-                
-                // 1. Try fuzzy matching for "Rating" in class names
-                const ratingElements = document.querySelectorAll('[class*="Rating_rating"], [class*="Rating-rating"], .rating-stars, .Rating, .scene-rating, .rating-container');
-                if (ratingElements.length > 0) {
-                    targetElement = ratingElements[0];
-                }
+    function tryInject(sceneId) {
+        if (document.querySelector('#adv-rating-trigger')) return true;
+        const ratingStars = document.querySelector('.scene-toolbar .rating-stars');
+        if (ratingStars) {
+            log("Attaching after .rating-stars");
+            injectTrigger(ratingStars, sceneId);
+            return true;
+        }
+        return false;
+    }
 
-                // 2. Fallback: Find any star icons and take their parent
-                if (!targetElement) {
-                    const stars = document.querySelectorAll('svg[data-icon="star"], svg[data-icon="star-half-alt"]');
-                    if (stars.length > 0) {
-                        targetElement = stars[0].closest('div') || stars[0].parentElement;
-                    }
-                }
-
-                // 3. Fallback: Find the scene title/header area
-                if (!targetElement) {
-                    targetElement = document.querySelector('.scene-header h1, h1.title, [class*="SceneDetails_header"] h1');
-                }
-
-                if (targetElement) {
-                    log("Attaching to element:", targetElement);
-                    injectTrigger(targetElement, sceneId);
-                } else {
-                    log("No target found, using FAB fallback");
-                    injectFAB(sceneId);
-                }
-            } else {
-                const trigger = document.querySelector('#adv-rating-trigger');
-                if (trigger) trigger.remove();
+    function startPolling(sceneId) {
+        if (pollTimer) clearInterval(pollTimer);
+        let attempts = 0;
+        pollTimer = setInterval(() => {
+            attempts++;
+            if (tryInject(sceneId) || attempts >= 40) {
+                clearInterval(pollTimer);
+                pollTimer = null;
+                if (attempts >= 40) log("Gave up waiting for scene-toolbar");
             }
-        }, 500); 
-    });
+        }, 100);
+    }
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    let lastPath = null;
+    function onLocationChange() {
+        const urlMatch = window.location.pathname.match(/\/scenes\/(\d+)/);
+        if (urlMatch && !window.location.pathname.includes('edit')) {
+            const sceneId = urlMatch[1];
+            if (window.location.pathname !== lastPath) {
+                lastPath = window.location.pathname;
+                const existing = document.querySelector('#adv-rating-trigger');
+                if (existing) existing.closest('.scene-toolbar-group')?.remove() || existing.remove();
+                startPolling(sceneId);
+            }
+        } else {
+            lastPath = null;
+            if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+            const existing = document.querySelector('#adv-rating-trigger');
+            if (existing) existing.closest('.scene-toolbar-group')?.remove() || existing.remove();
+        }
+    }
+
+    // Listen for Stash SPA navigation events
+    PluginApi.Event.addEventListener('stash:location', onLocationChange);
+    // Also handle initial page load
+    onLocationChange();
 
     async function gqlClient(query, variables) {
         const res = await fetch('/graphql', {
@@ -131,15 +137,15 @@
         return true;
     }
 
-    function injectTrigger(targetElement, sceneId) {
+    function injectTrigger(ratingStars, sceneId) {
         const triggerBtn = document.createElement('button');
         triggerBtn.id = 'adv-rating-trigger';
-        triggerBtn.innerHTML = '<span style="color:#ffc107;">★</span>+'; 
+        triggerBtn.innerHTML = '<span style="color:#ffc107;">★</span>+';
         triggerBtn.title = "Open Advanced Ratings";
         triggerBtn.className = 'adv-rating-btn';
-        
-        // Append into the container so it stays next to the stars
-        targetElement.appendChild(triggerBtn);
+
+        // Insert immediately after the .rating-stars div
+        ratingStars.insertAdjacentElement('afterend', triggerBtn);
 
         triggerBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -148,19 +154,6 @@
         });
     }
 
-    function injectFAB(sceneId) {
-        const fab = document.createElement('button');
-        fab.id = 'adv-rating-trigger';
-        fab.innerHTML = '<span style="color:#ffc107;">★</span>+ Advanced Ratings';
-        fab.className = 'adv-rating-fab';
-        document.body.appendChild(fab);
-
-        fab.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            openModal(sceneId);
-        });
-    }
 
     async function openModal(sceneId) {
         if (document.querySelector('#adv-rating-modal')) return;
