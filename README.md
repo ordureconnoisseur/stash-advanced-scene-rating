@@ -2,10 +2,6 @@
 
 A Stash plugin that adds a multi-category rating system for scenes. Instead of a single star rating, you rate scenes across configurable criteria — the plugin then calculates an overall score and sets the Stash rating automatically.
 
-![Rating Modal](screenshot-modal.png)
-![Scene Page](screenshot-scene-page.png)
-![Settings](screenshot-settings.png)
-
 ## Credits
 
 Inspired by the [Advanced Rating System](https://discourse.stashapp.cc/t/advanced-rating-system/3096) plugin on the Stash community forums, which introduced the concept of using tags for multi-category ratings. This plugin builds on that idea with a full interactive UI modal and configurable categories.
@@ -31,17 +27,21 @@ Inspired by the [Advanced Rating System](https://discourse.stashapp.cc/t/advance
 
 ## Usage
 
-1. Navigate to any scene in Stash
-2. Click the **★+** button near the scene's rating
-3. A modal opens showing all rating categories with 1–5 star selectors
-4. Rate each category — the overall scene rating updates automatically when you close the modal
-5. Hover over a category name to see a description of what it rates
+Click the **★+** button on any scene's page to open the rating modal.
 
-The overall rating is the average of all rated categories, mapped to Stash's 0–100 scale.
+![Rating Modal](screenshot-modal.png)
+
+Rate each category using the 1–5 star selectors. Hover over the ⓘ icon next to a category name to see a description of what it rates. When you close the modal the overall scene rating is calculated and set automatically.
+
+![Scene Page](screenshot-scene-page.png)
+
+The rating is visible directly on the scene page alongside the category tags that were assigned. The overall rating is the average of all rated categories mapped to Stash's 0–100 scale.
 
 ## Configuration
 
 Go to **Settings → Plugins → Advanced Scene Rating** to configure:
+
+![Settings](screenshot-settings.png)
 
 | Setting | Description |
 |---|---|
