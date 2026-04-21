@@ -44,10 +44,13 @@ Go to **Settings → Plugins → Advanced Scene Rating** to configure:
 | Disable: Performance | Remove Performance from rating |
 | Disable: Aesthetics | Remove Aesthetics from rating |
 | Disable: Creativity | Remove Creativity from rating |
+| Rating Star Precision | Match to your Stash rating precision: `20` = Full, `10` = Half, `5` = Quarter, `1` = Tenth (default: `10`) |
 | Minimum Required Tags | How many categories must be rated before a score is calculated (default: `5`) |
 | Allow Destructive Actions | Must be enabled before the Remove Tags task will run (default: `false`) |
 
 All categories are active by default — check a box to disable that category.
+
+After changing precision, run **Process All Scenes** to retroactively recalculate existing ratings.
 
 ## Tasks
 
