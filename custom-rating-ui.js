@@ -215,7 +215,7 @@
                 "Chemistry": "Measures visible attraction and interaction: focuses on eye contact, authentic kissing, responsive touching, and the sense that performers are genuinely engaged during oral, penetration, and foreplay.",
                 "Performance": "Assesses performers’ energy and engagement: intensity and realism of moans and expressions, stamina during extended penetration, visible physical reactions (muscle contractions, wetness, erection quality), and commitment to sexual acts.",
                 "Aesthetics": "Covers physical attractiveness (body shape, grooming of genitals/pubic areas), visual presentation of breasts, buttocks, penises, and vulvas, variety of positions, and framing of penetration and bodily fluids.",
-                "Creativity": "Examines creativity of concept and kinks, pacing of sexual activity, raw physical intensity, variety and duration of stimulation, and visible signs of orgasm and arousal (squirting, pulsing, or ejaculation)."
+                "Creativity": "This evaluates how fresh, creative, and unique the scene feels: originality of the concept or storyline, variety and combination of sexual acts and kinks, innovative use of positions, toys, locations, or camera work, pacing and progression of the sexual sequence, and creative buildup or transitions between acts. It also assesses the raw physical intensity of the scene and its overall memorability, rewatch value, and erotic impact."
             };
 
             categories.forEach(cat => {
