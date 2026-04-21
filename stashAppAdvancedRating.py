@@ -145,9 +145,7 @@ def handle_actions(json_input, stash, categories, minimum_required_tags):
     args = json_input.get("args", {})
     mode = args.get("mode")
     if mode == "process_scenes":
-        processScenes(stash, categories, minimum_required_tags, allScenes=True)
-    elif mode == "process_scenes_unrated":
-        processScenes(stash, categories, minimum_required_tags, allScenes=False)
+        processScenes(stash, categories, minimum_required_tags)
     elif mode == "create_tags":
         createTags(categories)
     elif mode == "remove_tags":
@@ -206,13 +204,9 @@ def processScene(scene):
     else:
         log.debug("PROCESSING SCENE: SKIPPING ...")
 
-def processScenes(stash, categories, minimum_required_tags, allScenes=True):
-    if allScenes:
-        log.info("PROCESSING ALL SCENES")
-        scenes = stash.find_scenes({}, get_count=False)
-    else:
-        log.info("PROCESSING UNRATED SCENES")
-        scenes = stash.find_scenes({"rating100": {"modifier": "IS_NULL"}}, get_count=False)
+def processScenes(stash, categories, minimum_required_tags):
+    log.info("PROCESSING ALL SCENES")
+    scenes = stash.find_scenes({}, get_count=False)
     
     for scene in scenes:
         calculate_rating(stash, scene, categories, minimum_required_tags)
