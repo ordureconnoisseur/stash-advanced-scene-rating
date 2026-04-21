@@ -185,7 +185,9 @@ def calculate_rating(stash, scene, categories, minimum_required_tags ):
         log.debug(f"CALCULATE RATING: {scene['title']}")
         # Average only across categories that have scores
         average = sum(scores.values()) / len(scores)
-        final_rating = round(round(average * 2) / 2 * 20)
+        precision = max(1, int(settings.get("rating_precision", 10)))
+        final_rating = round(round(average * 20 / precision) * precision)
+        final_rating = max(precision, min(100, final_rating))
         current_rating = scene.get("rating100") or 0
 
         log.debug(f"CURRENT: {current_rating}/100, AVERAGE: {average}/5, NEW: {final_rating}/100")
