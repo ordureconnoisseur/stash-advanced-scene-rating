@@ -32,9 +32,9 @@ SVG_TAG_IMG = (
     "ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPiA8L2c+Cg08L3N2Zz4="
 )
 TAG_RATING_PARENT = {
-    "name": "Advanced Rating System",
-    "sort_name": "#Advanced Rating System",
-    "description": "Advanced Rating System",
+    "name": "Advanced Scene Rating",
+    "sort_name": "#Advanced Scene Rating",
+    "description": "Advanced Scene Rating",
     "aliases": [],
     "auto_ignore_tag": True,
     "favorite": True,
